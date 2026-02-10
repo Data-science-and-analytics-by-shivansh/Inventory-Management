@@ -1,0 +1,16 @@
+Total Stock Value = SUMX(Inventory, Inventory[CurrentStock] * Inventory[UnitCost])
+
+Inventory Turnover = DIVIDE(SUM(Inventory[SalesQuantity]), AVERAGE(Inventory[CurrentStock]))
+
+Service Level % = 
+DIVIDE(
+    COUNTROWS(FILTER(Inventory, Inventory[CurrentStock] >= 0)),
+    COUNTROWS(Inventory)
+) * 100
+
+Stockout Risk = 
+IF(
+    AVERAGE(Inventory[CurrentStock]) < AVERAGE(Inventory[LeadTimeDays]) * AVERAGE(Inventory[SalesQuantity]) * 1.2,
+    "High Risk",
+    "Low Risk"
+)
